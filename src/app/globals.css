@@ -22,3 +22,91 @@ body {
   color: #e5e7eb;
   overflow-x: hidden;
 }
+
+/* ====== Market ticker animation ====== */
+.ticker-mask {
+  overflow: hidden;
+  position: relative;
+}
+
+.ticker-strip {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  min-width: 100%;
+  /* Ensure it doesn't wrap or shrink */
+  white-space: nowrap;
+  animation: ticker-scroll 40s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+
+/* ---------- Cinematic Card Hover ---------- */
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease-out;
+}
+
+.tilt-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* === Mastery card styling === */
+.mastery-card {
+  border-radius: 28px;
+  border: 1px solid rgba(34, 211, 238, 0.55);
+  background:
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.12), transparent 55%),
+    #020617;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85);
+}
+
+.mastery-card-inner {
+  padding: 2rem 2.5rem;
+}
+
+/* === BTB Custom Utilities === */
+.btb-container {
+  width: 100%;
+  max-width: 80rem;
+  /* max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.btb-divider {
+  @apply w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full mb-6 mx-auto;
+}
+
+@keyframes upPulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.0);
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 30px 0 rgba(56, 189, 248, 0.6);
+    transform: translateY(-2px) scale(1.06);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+.up-pulse-ready {
+  animation: upPulseGlow 1.7s ease-in-out infinite;
+}
