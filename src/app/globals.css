@@ -21,6 +21,15 @@ body {
   /* dark navy */
   color: #e5e7eb;
   overflow-x: hidden;
+  /* Prevent horizontal scroll on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Improve touch scrolling on iOS */
+html {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* ====== Market ticker animation ====== */
@@ -49,6 +58,14 @@ body {
   }
 }
 
+/* Mobile-optimized ticker */
+@media (max-width: 640px) {
+  .ticker-strip {
+    gap: 2rem;
+    animation: ticker-scroll 30s linear infinite;
+  }
+}
+
 
 /* ---------- Cinematic Card Hover ---------- */
 
@@ -59,6 +76,13 @@ body {
 
 .tilt-card:hover {
   transform: translateY(-6px) scale(1.02);
+}
+
+/* Reduce hover effects on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .tilt-card:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
 }
 
 /* === Mastery card styling === */
@@ -73,6 +97,13 @@ body {
 
 .mastery-card-inner {
   padding: 2rem 2.5rem;
+}
+
+/* Mobile optimized mastery card */
+@media (max-width: 768px) {
+  .mastery-card-inner {
+    padding: 1.5rem;
+  }
 }
 
 /* === BTB Custom Utilities === */
@@ -109,4 +140,75 @@ body {
 
 .up-pulse-ready {
   animation: upPulseGlow 1.7s ease-in-out infinite;
+}
+
+/* === Mobile Enhancements === */
+
+/* Improve button touch targets on mobile */
+@media (max-width: 768px) {
+
+  button,
+  a[role="button"],
+  .btn {
+    min-height: 44px;
+    /* Apple's recommended touch target size */
+    min-width: 44px;
+  }
+}
+
+/* Prevent text selection on interactive elements */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+/* Allow text selection in paragraphs */
+p,
+span,
+li {
+  user-select: text;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile-friendly focus states */
+@media (hover: none) and (pointer: coarse) {
+  *:focus {
+    outline: 2px solid rgba(34, 211, 238, 0.5);
+    outline-offset: 2px;
+  }
+}
+
+/* === Spline Mobile Optimizations === */
+
+/* Ensure Spline canvas scales properly on mobile */
+.spline-mobile-optimized canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+/* Mobile-specific Spline adjustments */
+@media (max-width: 768px) {
+  .spline-mobile-optimized {
+    transform: scale(1.2);
+    /* Slightly zoom in on mobile for better focal point */
+  }
+
+  .spline-mobile-optimized canvas {
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .spline-mobile-optimized {
+    transform: scale(1.1);
+  }
 }

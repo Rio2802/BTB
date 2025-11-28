@@ -38,13 +38,29 @@ export default function Home() {
       <Navbar />
 
       {/* ================= HERO SECTION (SPLINE A — NON-INTERACTIVE) ================= */}
-      <section className="relative h-screen w-full overflow-hidden">
-        {/* Spline A as non-interactive background */}
-        <div className="absolute inset-0 pointer-events-none">
+      <section className="relative min-h-[500px] md:h-screen w-full overflow-hidden">
+        {/* Spline A as non-interactive background - Hidden on mobile, shown on tablet+ */}
+        <div className="hidden md:block absolute inset-0 pointer-events-none">
           <Spline
             scene={HERO_SCENE}
-            style={{ width: '100%', height: '100%' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              transformOrigin: 'center center',
+            }}
+            className="spline-mobile-optimized"
           />
+        </div>
+
+        {/* Mobile Fallback - Premium gradient background */}
+        <div className="md:hidden absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950">
+          {/* Animated gradient orbs for depth */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+
+          {/* Grid overlay for tech feel */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
         </div>
 
         {/* Soft overlay so navbar & any future text are readable */}
@@ -60,13 +76,13 @@ export default function Home() {
       <div className="relative bg-[#020617]">
 
         {/* ================= SECTION 2 — ACADEMY OVERVIEW + LEARNING PATHS ================= */}
-        {/* Full-width layout with big gap after ticker */}
+        {/* Full-width layout with gap after ticker */}
         <motion.section
           initial="hidden"
           whileInView="visible"
           viewport={defaultViewport}
           variants={fadeInUp}
-          className="relative w-full px-6 md:px-12 lg:px-24 xl:px-40 mt-24 md:mt-32 py-24 md:py-32 bg-gradient-to-b from-slate-950/80 via-black to-slate-950"
+          className="relative w-full px-6 md:px-12 lg:px-24 xl:px-40 mt-8 md:mt-12 py-16 md:py-24 bg-gradient-to-b from-slate-950/80 via-black to-slate-950"
         >
           <div className="w-full space-y-16">
             {/* === Centered headline === */}
@@ -333,8 +349,8 @@ export default function Home() {
               <div className="w-full h-8"></div>
             </div>
 
-            {/* Premium Cards Grid - Flex Side by Side */}
-            <div className="flex flex-row justify-center gap-3 w-full px-4">
+            {/* Premium Cards Grid - Responsive Grid Layout with centered smaller cards on mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-4 justify-items-center">
               {/* Card 1 - Alex R. */}
               <TraderProfileCard
                 image="/programs/placeholder.jpg"
@@ -387,7 +403,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Centered 1×4 grid of square cards */}
+          {/* Centered 2x2 grid (mobile) to 1x4 (desktop) of cards */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -395,7 +411,7 @@ export default function Home() {
             variants={staggerContainer}
             className="flex justify-center px-4"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 xl:gap-10">
+            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-10 max-w-5xl">
               <motion.div variants={staggerChild}>
                 <JourneyCard
                   step="1"
@@ -470,10 +486,10 @@ export default function Home() {
               whileInView="visible"
               viewport={defaultViewport}
               variants={staggerContainer}
-              className="flex flex-wrap justify-center gap-10 w-full px-4"
+              className="flex flex-wrap justify-center gap-6 md:gap-10 w-full px-4"
             >
               {/* Card 1 */}
-              <motion.div variants={staggerChild} className="w-full sm:w-80">
+              <motion.div variants={staggerChild} className="w-full max-w-64 sm:max-w-80">
                 <div className="group relative bg-slate-900 rounded-2xl border border-slate-800/70 shadow-lg aspect-square overflow-hidden hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(34,211,238,0.25)] transition-all duration-300">
                   {/* Full Background Image */}
                   <div className="absolute inset-0">
@@ -487,19 +503,19 @@ export default function Home() {
                   </div>
 
                   {/* Content Layer */}
-                  <div className="relative z-10 h-full flex flex-col justify-end p-6 text-center">
-                    <p className="text-slate-200 text-sm italic mb-4 drop-shadow-md">
+                  <div className="relative z-10 h-full flex flex-col justify-end p-5 md:p-6 text-center">
+                    <p className="text-slate-200 text-xs md:text-sm italic mb-4 drop-shadow-md">
                       "The structured approach to liquidity concepts completely changed how I view the charts. Finally profitable after 2 years of struggle."
                     </p>
-                    <h4 className="text-white font-bold text-lg drop-shadow-md">Michael T.</h4>
+                    <h4 className="text-white font-bold text-base md:text-lg drop-shadow-md">Michael T.</h4>
                     <span className="text-cyan-400 text-xs font-semibold tracking-wide uppercase">Funded Trader</span>
                   </div>
                 </div>
               </motion.div>
 
               {/* Card 2 */}
-              <motion.div variants={staggerChild} className="w-full sm:w-80">
-                <div className="group relative w-full sm:w-80 bg-slate-900 rounded-2xl border border-slate-800/70 shadow-lg aspect-square overflow-hidden hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(34,211,238,0.25)] transition-all duration-300">
+              <motion.div variants={staggerChild} className="w-full max-w-64 sm:max-w-80">
+                <div className="group relative w-full bg-slate-900 rounded-2xl border border-slate-800/70 shadow-lg aspect-square overflow-hidden hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(34,211,238,0.25)] transition-all duration-300">
                   {/* Full Background Image */}
                   <div className="absolute inset-0">
                     <img
@@ -512,19 +528,19 @@ export default function Home() {
                   </div>
 
                   {/* Content Layer */}
-                  <div className="relative z-10 h-full flex flex-col justify-end p-6 text-center">
-                    <p className="text-slate-200 text-sm italic mb-4 drop-shadow-md">
+                  <div className="relative z-10 h-full flex flex-col justify-end p-5 md:p-6 text-center">
+                    <p className="text-slate-200 text-xs md:text-sm italic mb-4 drop-shadow-md">
                       "I used to overtrade and blow accounts. The risk management module alone is worth the price of admission."
                     </p>
-                    <h4 className="text-white font-bold text-lg drop-shadow-md">Sarah J.</h4>
+                    <h4 className="text-white font-bold text-base md:text-lg drop-shadow-md">Sarah J.</h4>
                     <span className="text-cyan-400 text-xs font-semibold tracking-wide uppercase">Junior Trader</span>
                   </div>
                 </div>
               </motion.div>
 
               {/* Card 3 */}
-              <motion.div variants={staggerChild} className="w-full sm:w-80">
-                <div className="group relative w-full sm:w-80 bg-slate-900 rounded-2xl border border-slate-800/70 shadow-lg aspect-square overflow-hidden hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(34,211,238,0.25)] transition-all duration-300">
+              <motion.div variants={staggerChild} className="w-full max-w-64 sm:max-w-80">
+                <div className="group relative w-full bg-slate-900 rounded-2xl border border-slate-800/70 shadow-lg aspect-square overflow-hidden hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(34,211,238,0.25)] transition-all duration-300">
                   {/* Full Background Image */}
                   <div className="absolute inset-0">
                     <img
@@ -537,19 +553,19 @@ export default function Home() {
                   </div>
 
                   {/* Content Layer */}
-                  <div className="relative z-10 h-full flex flex-col justify-end p-6 text-center">
-                    <p className="text-slate-200 text-sm italic mb-4 drop-shadow-md">
+                  <div className="relative z-10 h-full flex flex-col justify-end p-5 md:p-6 text-center">
+                    <p className="text-slate-200 text-xs md:text-sm italic mb-4 drop-shadow-md">
                       "The mentorship is next level. Having a pro review my trades weekly helped me spot mistakes I didn't know I was making."
                     </p>
-                    <h4 className="text-white font-bold text-lg drop-shadow-md">David K.</h4>
+                    <h4 className="text-white font-bold text-base md:text-lg drop-shadow-md">David K.</h4>
                     <span className="text-cyan-400 text-xs font-semibold tracking-wide uppercase">Pro Member</span>
                   </div>
                 </div>
               </motion.div>
 
               {/* Card 4 */}
-              <motion.div variants={staggerChild} className="w-full sm:w-80">
-                <div className="group relative w-full sm:w-80 bg-slate-900 rounded-2xl border border-slate-800/70 shadow-lg aspect-square overflow-hidden hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(34,211,238,0.25)] transition-all duration-300">
+              <motion.div variants={staggerChild} className="w-full max-w-64 sm:max-w-80">
+                <div className="group relative w-full bg-slate-900 rounded-2xl border border-slate-800/70 shadow-lg aspect-square overflow-hidden hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(34,211,238,0.25)] transition-all duration-300">
                   {/* Full Background Image */}
                   <div className="absolute inset-0">
                     <img
@@ -562,11 +578,11 @@ export default function Home() {
                   </div>
 
                   {/* Content Layer */}
-                  <div className="relative z-10 h-full flex flex-col justify-end p-6 text-center">
-                    <p className="text-slate-200 text-sm italic mb-4 drop-shadow-md">
+                  <div className="relative z-10 h-full flex flex-col justify-end p-5 md:p-6 text-center">
+                    <p className="text-slate-200 text-xs md:text-sm italic mb-4 drop-shadow-md">
                       "The mentorship calls are gold. Being able to ask questions and get real-time feedback on my analysis has been invaluable."
                     </p>
-                    <h4 className="text-white font-bold text-lg drop-shadow-md">James L.</h4>
+                    <h4 className="text-white font-bold text-base md:text-lg drop-shadow-md">James L.</h4>
                     <span className="text-cyan-400 text-xs font-semibold tracking-wide uppercase">Crypto Trader</span>
                   </div>
                 </div>
@@ -669,34 +685,34 @@ function JourneyCard({
   return (
     <div
       className={`
-        group relative w-full max-w-[260px] aspect-square
-        rounded-[32px] border border-slate-800/80 bg-slate-900/70
+        group relative w-full aspect-square
+        rounded-2xl md:rounded-[32px] border border-slate-800/80 bg-slate-900/70
         shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-xl
-        flex flex-col items-center text-center px-6 py-8
+        flex flex-col items-center text-center px-4 py-6 md:px-6 md:py-8
         transition-all duration-300
         hover:-translate-y-2 hover:border-cyan-400/70
         hover:shadow-[0_0_40px_rgba(34,211,238,0.35)]
       `}
     >
       {/* soft glow behind card */}
-      <div className="pointer-events-none absolute inset-0 rounded-[32px] bg-gradient-to-br from-white/5 via-transparent to-cyan-500/5 opacity-70 group-hover:opacity-100 transition-opacity" />
+      <div className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-[32px] bg-gradient-to-br from-white/5 via-transparent to-cyan-500/5 opacity-70 group-hover:opacity-100 transition-opacity" />
 
       {/* content layer */}
       <div className="relative flex flex-col items-center justify-center h-full">
         {/* step badge */}
         <div
           className={`
-            mb-6 flex h-14 w-14 items-center justify-center rounded-full
+            mb-4 md:mb-6 flex h-10 w-10 md:h-14 md:w-14 items-center justify-center rounded-full
             bg-gradient-to-br ${colorClass}
             shadow-[0_0_25px_rgba(59,130,246,0.45)]
           `}
         >
-          <span className="text-lg font-semibold text-white">{step}</span>
+          <span className="text-base md:text-lg font-semibold text-white">{step}</span>
         </div>
 
         {/* text */}
-        <div className="space-y-3">
-          <h3 className="text-base md:text-lg font-semibold text-white leading-snug">
+        <div className="space-y-2 md:space-y-3">
+          <h3 className="text-sm md:text-base lg:text-lg font-semibold text-white leading-snug">
             {title}
           </h3>
           <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
@@ -780,9 +796,9 @@ function TraderProfileCard({
   description: string;
 }) {
   return (
-    <div className="w-full max-w-[360px] relative rounded-2xl overflow-hidden shadow-lg group hover:scale-[1.02] transition-all duration-300">
+    <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] mx-auto relative rounded-2xl overflow-hidden shadow-lg group hover:scale-[1.02] transition-all duration-300">
       {/* Background Image - Full Card */}
-      <div className="relative h-[550px] w-full">
+      <div className="relative h-[340px] xs:h-[380px] sm:h-[420px] md:h-[480px] w-full">
         <img
           src={image}
           alt={name}
@@ -797,37 +813,37 @@ function TraderProfileCard({
         <div className="absolute inset-0 border-2 border-slate-800/50 group-hover:border-cyan-500/50 transition-colors duration-300 rounded-2xl"></div>
 
         {/* Content Overlaid on Image */}
-        <div className="absolute inset-0 flex flex-col justify-between p-6 text-center">
+        <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-5 lg:p-6 text-center">
 
           {/* Top: Name & Role */}
-          <div className="pt-4">
-            <h3 className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mb-1">
+          <div className="pt-2 md:pt-3">
+            <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-white tracking-wide drop-shadow-lg mb-1">
               {name}
             </h3>
-            <p className="text-cyan-400 font-bold text-sm tracking-[0.2em] uppercase">
+            <p className="text-cyan-400 font-bold text-[10px] md:text-xs tracking-[0.2em] uppercase">
               {role}
             </p>
           </div>
 
           {/* Bottom: Bio, Stats, Button */}
-          <div className="space-y-4">
+          <div className="space-y-2.5 md:space-y-3">
             {/* Bio */}
-            <p className="text-white text-sm leading-relaxed font-medium drop-shadow-md">
+            <p className="text-white text-[11px] md:text-xs lg:text-sm leading-relaxed font-medium drop-shadow-md">
               {description}
             </p>
 
             {/* Stats Row */}
-            <div className="flex items-center justify-center gap-8 border-t border-white/20 pt-4">
+            <div className="flex items-center justify-center gap-5 md:gap-6 lg:gap-8 border-t border-white/20 pt-2.5 md:pt-3">
               {/* Rating */}
-              <div className="flex flex-col gap-1 items-center">
-                <span className="text-[10px] uppercase tracking-widest text-white/70 font-semibold">Rating</span>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-white font-bold">{rating}</span>
+              <div className="flex flex-col gap-0.5 items-center">
+                <span className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/70 font-semibold">Rating</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-white font-bold text-xs md:text-sm">{rating}</span>
                   <div className="flex gap-0.5">
                     {[...Array(5)].map((_, i) => (
                       <svg
                         key={i}
-                        className="w-3 h-3 fill-cyan-400"
+                        className="w-2 h-2 md:w-2.5 md:h-2.5 fill-cyan-400"
                         viewBox="0 0 20 20"
                       >
                         <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
@@ -838,14 +854,14 @@ function TraderProfileCard({
               </div>
 
               {/* Students */}
-              <div className="flex flex-col gap-1 items-center">
-                <span className="text-[10px] uppercase tracking-widest text-white/70 font-semibold">Mentored</span>
-                <span className="text-white font-bold">{students}</span>
+              <div className="flex flex-col gap-0.5 items-center">
+                <span className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/70 font-semibold">Mentored</span>
+                <span className="text-white font-bold text-xs md:text-sm">{students}</span>
               </div>
             </div>
 
             {/* CTA Button */}
-            <button className="w-full px-6 py-3 rounded-lg bg-cyan-500/20 backdrop-blur-sm border border-cyan-500/60 text-cyan-300 font-semibold hover:bg-cyan-500 hover:text-black transition-all duration-300 text-xs tracking-widest uppercase shadow-lg">
+            <button className="w-full px-3 md:px-4 lg:px-6 py-2 md:py-2.5 rounded-lg bg-cyan-500/20 backdrop-blur-sm border border-cyan-500/60 text-cyan-300 font-semibold hover:bg-cyan-500 hover:text-black transition-all duration-300 text-[9px] md:text-[10px] lg:text-xs tracking-widest uppercase shadow-lg">
               View Profile
             </button>
           </div>

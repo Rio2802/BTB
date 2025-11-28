@@ -38,30 +38,61 @@ A modern, interactive trading education platform built with Next.js 14, featurin
 - **Email**: Resend
 - **Icons**: Lucide React
 
-## 📦 Installation
+## 📦 Prerequisites
 
-1. Clone the repository:
+Before you begin, ensure you have the following installed on your machine:
+
+- **Node.js** (version 18.x or higher) - [Download here](https://nodejs.org/)
+- **npm** (comes with Node.js) or **yarn**
+- **Git** - [Download here](https://git-scm.com/)
+
+## 🚀 Getting Started
+
+Follow these steps to run the project on your local machine:
+
+### 1. Clone the repository
+
 ```bash
+git clone https://github.com/Rio2802/BTB.git
 cd 3d-trading-academy
 ```
 
-2. Install dependencies:
+### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
-3. Set up environment variables:
-Create a `.env.local` file in the root directory:
-```
+This will install all required packages listed in `package.json`.
+
+### 3. Set up environment variables
+
+Create a `.env.local` file in the root directory and add your Resend API key:
+
+```env
 RESEND_API_KEY=your_resend_api_key_here
 ```
 
-4. Run the development server:
+> **Note**: The email functionality requires a valid Resend API key. Sign up at [resend.com](https://resend.com) to get one. The project will still run without this, but the contact form won't work.
+
+### 4. Run the development server
+
 ```bash
 npm run dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+### 5. Open the application
+
+Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
+
+You should now see the 3D Trading Academy homepage! 🎉
+
+## 📝 Available Scripts
+
+- **`npm run dev`** - Starts the development server on port 3000
+- **`npm run build`** - Creates an optimized production build
+- **`npm start`** - Runs the production build (requires `npm run build` first)
+- **`npm run lint`** - Runs ESLint to check for code quality issues
 
 ## 📁 Project Structure
 
