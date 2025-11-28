@@ -12,6 +12,7 @@ import {
   defaultViewport,
 } from '@/utils/animations';
 import ScrollUpButton from '@/components/ScrollUpButton';
+import ScrollDownIndicator from '@/components/ScrollDownIndicator';
 
 // Load Spline only on client
 const Spline = dynamic(() => import('@splinetool/react-spline'), {
@@ -20,7 +21,7 @@ const Spline = dynamic(() => import('@splinetool/react-spline'), {
 
 // 1️⃣ FIRST SECTION SPLINE (Hero)
 const HERO_SCENE =
-  'https://prod.spline.design/ADljPcmQFB-Ya58J/scene.splinecode';
+  'https://prod.spline.design/zlV4YhO2EXBole-y/scene.splinecode';
 
 
 
@@ -37,53 +38,69 @@ export default function Home() {
       {/* NAVBAR ABOVE EVERYTHING */}
       <Navbar />
 
-      {/* ================= HERO SECTION (SPLINE A — NON-INTERACTIVE) ================= */}
-      <section className="relative min-h-[500px] md:h-screen w-full overflow-hidden">
-        {/* Spline A as non-interactive background - Hidden on mobile, shown on tablet+ */}
-        <div className="hidden md:block absolute inset-0 pointer-events-none">
+      {/* ================= HERO SECTION (SPLINE — FULL BACKGROUND) ================= */}
+      <section className="relative min-h-[100svh] md:h-screen w-full overflow-hidden bg-[#020617]">
+
+        {/* Fallback gradient background - shows behind Spline or if Spline fails */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/50 via-cyan-950/30 to-purple-950/50 -z-20">
+          {/* Animated orbs for fallback/background */}
+          <div className="absolute top-20 left-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute bottom-32 right-10 w-40 h-40 bg-blue-500/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 bg-purple-500/15 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        {/* Spline 3D - Full Screen Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <Spline
             scene={HERO_SCENE}
-            style={{
-              width: '100%',
-              height: '100%',
-              transformOrigin: 'center center',
-            }}
-            className="spline-mobile-optimized"
+            className="w-full h-full object-cover spline-mobile-optimized"
           />
         </div>
 
-        {/* Mobile Fallback - Premium gradient background */}
-        <div className="md:hidden absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950">
-          {/* Animated gradient orbs for depth */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        {/* Soft overlay for readability */}
+        <div className="pointer-events-none absolute inset-0 bg-black/20 z-10" />
 
-          {/* Grid overlay for tech feel */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+        {/* HERO TEXT CONTENT - OVERLAY */}
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center pointer-events-none">
+          <motion.div
+            initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{
+              duration: 1.5,
+              delay: 0.5,
+              ease: [0.22, 1, 0.36, 1]
+            }}
+            className="space-y-2 md:space-y-4 pointer-events-auto"
+          >
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[1.1]">
+              <span className="bg-gradient-to-r from-cyan-300 to-cyan-500 text-transparent bg-clip-text">Blackstar</span>{' '}
+              <span className="bg-gradient-to-r from-indigo-300 to-indigo-500 text-transparent bg-clip-text">Traders</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 to-blue-700 text-transparent bg-clip-text">Bureau</span>
+            </h1>
+            <p className="text-lg md:text-2xl text-slate-500 font-medium tracking-wide mt-4">
+              Ride the waves of the currency market.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Soft overlay so navbar & any future text are readable */}
-        <div className="pointer-events-none absolute inset-0 bg-black/20" />
+        {/* Scroll Down Indicator */}
+        <ScrollDownIndicator />
 
-        {/* Currently empty – just pure Spline hero */}
       </section>
 
       {/* =============== LIVE MARKET TICKER (NEW) =============== */}
-      <MarketTicker />
+      <div id="market-ticker">
+        <MarketTicker />
+      </div>
 
       {/* ================= ALL OTHER SECTIONS ================= */}
       <div className="relative bg-[#020617]">
 
         {/* ================= SECTION 2 — ACADEMY OVERVIEW + LEARNING PATHS ================= */}
         {/* Full-width layout with gap after ticker */}
-        <motion.section
-          initial="hidden"
-          whileInView="visible"
-          viewport={defaultViewport}
-          variants={fadeInUp}
-          className="relative w-full px-6 md:px-12 lg:px-24 xl:px-40 mt-8 md:mt-12 py-16 md:py-24 bg-gradient-to-b from-slate-950/80 via-black to-slate-950"
-        >
+        <section className="relative w-full px-6 md:px-12 lg:px-24 xl:px-40 mt-8 md:mt-12 py-16 md:py-24 bg-gradient-to-b from-slate-950/80 via-black to-slate-950">
+
           <div className="w-full space-y-16">
             {/* === Centered headline === */}
             <motion.div
@@ -328,7 +345,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </motion.section>
+        </section>
 
 
 
@@ -349,37 +366,40 @@ export default function Home() {
               <div className="w-full h-8"></div>
             </div>
 
-            {/* Premium Cards Grid - Responsive Grid Layout with centered smaller cards on mobile */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-4 justify-items-center">
-              {/* Card 1 - Alex R. */}
-              <TraderProfileCard
-                image="/programs/placeholder.jpg"
-                name="ALEX R."
-                role="Head Mentor"
-                rating="4.9"
-                students="1500+"
-                description="Former institutional trader with 8 years of experience. Specializes in order flow and supply/demand zones."
-              />
+            {/* Premium Cards Grid - Responsive Grid Layout with centered cards */}
+            <div className="w-full flex justify-center px-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl justify-items-center">
 
-              {/* Card 2 - Sarah K. */}
-              <TraderProfileCard
-                image="/programs/placeholder.jpg"
-                name="SARAH K."
-                role="Swing Specialist"
-                rating="4.8"
-                students="2800+"
-                description="Master of market structure and psychology. Helps traders build patience and discipline for long-term growth."
-              />
+                {/* Card 1 - Alex R. */}
+                <TraderProfileCard
+                  image="/programs/placeholder.jpg"
+                  name="ALEX R."
+                  role="Head Mentor"
+                  rating="4.9"
+                  students="1500+"
+                  description="Former institutional trader with 8 years of experience. Specializes in order flow and supply/demand zones."
+                />
 
-              {/* Card 3 - Michael T. */}
-              <TraderProfileCard
-                image="/programs/placeholder.jpg"
-                name="MICHAEL T."
-                role="Scalping Expert"
-                rating="4.9"
-                students="100+"
-                description="Precision-based scalper focusing on lower timeframes. Teaches the 'Advanced TFL' system for rapid account compounding."
-              />
+                {/* Card 2 - Sarah K. */}
+                <TraderProfileCard
+                  image="/programs/placeholder.jpg"
+                  name="SARAH K."
+                  role="Swing Specialist"
+                  rating="4.8"
+                  students="2800+"
+                  description="Master of market structure and psychology. Helps traders build patience and discipline for long-term growth."
+                />
+
+                {/* Card 3 - Michael T. */}
+                <TraderProfileCard
+                  image="/programs/placeholder.jpg"
+                  name="MICHAEL T."
+                  role="Scalping Expert"
+                  rating="4.9"
+                  students="100+"
+                  description="Precision-based scalper focusing on lower timeframes. Teaches the 'Advanced TFL' system for rapid account compounding."
+                />
+              </div>
             </div>
           </div>
         </section>
